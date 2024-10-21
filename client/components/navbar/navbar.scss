@@ -1,0 +1,146 @@
+@import "../../src/responsive.scss";
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+
+  a {
+    transition: all 0.5s ease;
+
+    @include sm {
+      display: none
+    }
+
+    &:hover {
+      scale: 1.08;
+    }
+  }
+
+  .left {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+
+    .logo {
+      margin-right: 10px;
+    }
+  }
+
+  .right {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    background-color: #fcf5f3;
+    height: 100%;
+
+    .user {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      span {
+        @include md {
+          display: none;
+        }
+      }
+
+      .profile {
+        padding: 12px 24px;
+        background-color: #fece51;
+        cursor: pointer;
+        border: none;
+        position: relative;
+
+        @include md {
+          display: none;
+        }
+
+        .notification {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background-color: red;
+          color: white;
+          border-radius: 50%;
+          width: 26px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    a {
+      padding: 12px 24px;
+      margin: 50px;
+    }
+
+    @include md {
+      background-color: transparent;
+
+      a {
+        padding: 9px 13px;
+        margin: 10px;
+      }
+    }
+
+    .register {
+      background-color: #fece51;
+    }
+
+    .menuIcon {
+      display: none;
+      z-index: 3;
+
+      img {
+        width: 36px;
+        cursor: pointer;
+      }
+
+      @include md {
+        display: initial;
+      }
+    }
+
+    .menu {
+      position: absolute;
+      top: 0;
+      right: -50%;
+      background-color: black;
+      height: 100vh;
+      width: 50%;
+      display: none;
+      transition: all 0.8s ease;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      z-index: 2;
+
+      &.active {
+        right: 0;
+      }
+
+      @include sm {
+        a {
+          display: initial;
+        }
+      }
+    }
+  }
+}
