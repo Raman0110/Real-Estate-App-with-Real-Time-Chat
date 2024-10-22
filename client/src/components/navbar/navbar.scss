@@ -78,6 +78,8 @@ nav {
       }
 
       span {
+        cursor: pointer;
+
         @include sm {
           display: none;
         }
@@ -86,9 +88,9 @@ nav {
       .profile {
         padding: 12px 24px;
         background-color: #fece51;
-        cursor: pointer;
         border: none;
         position: relative;
+        cursor: pointer;
 
         .notification {
           position: absolute;

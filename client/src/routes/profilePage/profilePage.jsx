@@ -10,7 +10,7 @@ function ProfilePage() {
     try {
       const res = await axios.post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true });
       localStorage.removeItem("user");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
