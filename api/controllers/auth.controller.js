@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt"
 import { User } from "../model/user.model.js";
 import jwt from "jsonwebtoken";
 
@@ -12,7 +12,7 @@ export const register = async (req, res) => {
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ username, email, password: hashPassword });
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: "User created successfuly" });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Failed to create a user" });
@@ -29,17 +29,20 @@ export const login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, SECRET_KEY, {
       expiresIn: "30d",
     });
-    res.cookie('jwt', token, {
+    const { password: userPassword, ...userInfo } = user._doc;
+    res.cookie('token', token, {
       httpOnly: true,
       secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 7
-    }).status(200).json({ message: "Login Successfull" });
+    }).status(200).json(userInfo);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Login Failed" });
   }
 }
+
+
 export const logout = (req, res) => {
-  res.clearCookie('jwt').status(200).json({ message: "Logout Successfull" });
+  res.clearCookie('token').status(200).json({ message: "Logout Successful" });
 }
 
