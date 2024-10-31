@@ -1,41 +1,46 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import axios from "axios";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
   const navigate = useNavigate();
+  const { updateUser, currentUser } = useContext(AuthContext);
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem("user");
+      await axios.post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true });
+      updateUser(null);
       navigate("/login");
     } catch (error) {
       console.log(error);
     }
   }
   return (
-    <div className="profilePage">
+    currentUser && (<div className="profilePage">
       <div className="details">
         <div className="wrapper">
           <div className="title">
             <h1>User Information</h1>
-            <button>Update Profile</button>
+            <Link to="/profile/update">
+              <button>Update Profile</button>
+            </Link>
           </div>
           <div className="info">
             <span>
               Avatar:
               <img
-                src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={currentUser.avatar || "/user.png"}
                 alt=""
               />
             </span>
             <span>
-              Username: <b>Raman</b>
+              Username: <b>{currentUser.username}</b>
             </span>
             <span>
-              E-mail: <b>Raman@gmail.com</b>
+              E-mail: <b>{currentUser.email}</b>
             </span>
             <button onClick={handleLogout}>Logout</button>
           </div>
@@ -55,7 +60,7 @@ function ProfilePage() {
           <Chat />
         </div>
       </div>
-    </div>
+    </div>)
   );
 }
 

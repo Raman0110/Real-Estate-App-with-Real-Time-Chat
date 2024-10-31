@@ -3,12 +3,14 @@ import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 function Login() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
+  const { updateUser } = useContext(AuthContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -17,7 +19,7 @@ function Login() {
     const password = formData.get("password");
     try {
       const res = await axios.post("http://localhost:8080/api/auth/login", { username, password }, { withCredentials: true });
-      localStorage.setItem("user", JSON.stringify(res.data));
+      updateUser(res.data);
       navigate("/");
     } catch (error) {
       toast.error(`${error.response.data.message}`, {
@@ -25,9 +27,10 @@ function Login() {
         closeButton: false,
         position: "top-center"
       })
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000)
+
+    }
+    finally {
+      setLoading(false);
     }
   }
   return (
